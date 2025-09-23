@@ -1,0 +1,39 @@
+﻿@model CBTSWE2_TP02.Models.BL
+
+@{
+    ViewData["Title"] = "Editar BL";
+}
+@* feito por Vinicius Pontes e Eduardo Barbosa *@
+
+<div class="container my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center text-success mb-4 fw-bold">
+            @ViewData["Title"]
+        </h2>
+
+        <form asp-action="Edit" asp-controller="BL" method="post">
+            <div class="mb-3">
+                <label asp-for="Numero" class="form-label text-success fw-bold"></label>
+                <input asp-for="Numero" class="form-control" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Consignee" class="form-label text-success fw-bold"></label>
+                <input asp-for="Consignee" class="form-control" />
+                <span asp-validation-for="Consignee" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Navio" class="form-label text-success fw-bold"></label>
+                <input asp-for="Navio" class="form-control" />
+                <span asp-validation-for="Navio" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" asp-controller="BL" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>

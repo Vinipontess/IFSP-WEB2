@@ -1,0 +1,76 @@
+﻿@model CBTSWE2_TP02.Models.Container
+
+@{
+    ViewData["Title"] = "Cadastrar Container";
+}
+@* Desenvolvido por Vinicius Pontes e Eduardp Barbosa *@
+
+<div class="container my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center text-success mb-4 fw-bold">
+            @ViewData["Title"]
+        </h2>
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Numero" class="form-label text-success fw-bold"></label>
+                <input asp-for="Numero" class="form-control" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Tipo" class="form-label text-success fw-bold"></label>
+                <select asp-for="Tipo" class="form-select">
+                    <option value="">Selecione</option>
+                    <option value="Dry">Dry</option>
+                    <option value="Reefer">Reefer</option>
+                </select>
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Tamanho" class="form-label text-success fw-bold"></label>
+                <select asp-for="Tamanho" class="form-select">
+                    <option value="">Selecione</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </select>
+                <span asp-validation-for="Tamanho" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="BLId" class="form-label text-success fw-bold">Bill of Landing</label>
+
+                @if (ViewBag.BLs == null || !((IEnumerable<SelectListItem>)ViewBag.BLs).Any())
+                {
+                    <div class="alert alert-warning">
+                        Nenhum Bill of Landing disponível. Por favor, cadastre um Bill of Landing antes de adicionar um container.
+                    </div>
+                }
+                else
+                {
+                    <select asp-for="BLId" class="form-select" asp-items="ViewBag.BLs">
+                        <option value="">Selecione um BL</option>
+                    </select>
+                    <span asp-validation-for="BLId" class="text-danger"></span>
+                }
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" asp-controller="Container" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<br>
+<br>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

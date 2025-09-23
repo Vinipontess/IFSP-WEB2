@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Relatório de BLs e Containers";
+    var listaBLs = ViewBag.ListaDeBLs as CBTSWE2_TP02.Models.BL[];
+    var listaContainers = ViewBag.ListaDeContainers as CBTSWE2_TP02.Models.Container[];
+}
+@* Desenvolvido por Vinicius Pontes e Eduardp Barbosa *@
+
+<div class="container my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center text-success mb-5">
+            Relatório de BLs e Containers
+        </h2>
+
+        @if (listaBLs != null && listaBLs.Any())
+        {
+            foreach (var bl in listaBLs)
+            {
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            BL: @bl.Numero
+                            <small class="text-white-50 float-end">Consignee: @bl.Consignee | Navio: @bl.Navio</small>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">Containers Associados:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="bg-success text-white">
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Tipo</th>
+                                        <th>Tamanho</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var c in listaContainers.Where(c => c.BLId == bl.Id))
+                                    {
+                                        <tr>
+                                            <td>@c.Numero</td>
+                                            <td>@c.Tipo</td>
+                                            <td>@c.Tamanho</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @if (!listaContainers.Any(c => c.BLId == bl.Id))
+                        {
+                            <p class="text-muted">Nenhum container associado a este BL.</p>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info text-center" role="alert">
+                <h4 class="alert-heading">Nenhum BL encontrado!</h4>
+                <p>Não há dados para exibir no relatório. Por favor, cadastre um novo BL.</p>
+            </div>
+        }
+    </div>
+</div>

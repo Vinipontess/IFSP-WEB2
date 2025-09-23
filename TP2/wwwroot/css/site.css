@@ -1,0 +1,54 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #e8f5e9;
+}
+
+
+.custom-card {
+    background-color: #e8f5e9; /* Cor de fundo verde claro */
+    border: 1px solid #c8e6c9; /* Borda sutil */
+    border-radius: 8px; /* Cantos arredondados */
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-title {
+    color: #4caf50; /* Cor de t�tulo verde */
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.custom-button {
+    background-color: #4caf50; /* Cor do bot�o */
+    border-color: #4caf50;
+    color: white;
+}
+
+/* Alterar a cor das tabelas para combinar */
+.table-primary > thead > tr > th {
+    background-color: #4caf50 !important;
+    border-color: #4caf50;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: #f1f8e9;
+}
