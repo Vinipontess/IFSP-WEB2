@@ -1,0 +1,51 @@
+﻿@model Models.Tarefa
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center ">
+    <div class="card shadow-sm" style="width:100%; max-width:640px;">
+        <div class="card-body p-4 p-md-5">
+            <h2 class="card-title mb-3 text-center">Editar Tarefa</h2>
+
+            <form asp-action="Editar" method="post" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <input asp-for="Id" type="hidden" />
+
+                <div class="mb-3">
+                    <label asp-for="Titulo" class="form-label">Título</label>
+                    <input asp-for="Titulo" class="form-control" placeholder="Digite o título da tarefa" />
+                    <span asp-validation-for="Titulo" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Descricao" class="form-label">Descrição</label>
+                    <textarea asp-for="Descricao" class="form-control" rows="4" placeholder="Descrição da tarefa..."></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-between align-items-center">
+                    <div class="w-100 w-md-auto mb-2 mb-md-0">
+                        <input type="submit" value="Salvar" class="btn btn-primary w-100" />
+                    </div>
+                    <div class="w-100 w-md-auto">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary w-100">Retornar ao menu</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-muted text-center small">
+            Altere os campos e clique em Salvar.
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

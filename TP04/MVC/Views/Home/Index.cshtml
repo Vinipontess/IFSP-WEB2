@@ -1,0 +1,87 @@
+﻿@model Tuple<IEnumerable<Tarefa>, IEnumerable<Tarefa>>
+@{
+    ViewData["Title"] = "Tarefas";
+
+    var tarefasCompletas = Model?.Item1 ?? Enumerable.Empty<Tarefa>();
+    var tarefasPendentes = Model?.Item2 ?? Enumerable.Empty<Tarefa>();
+
+    var status = Context.Request.Query["status_tarefa"].ToString();
+    
+    if (string.IsNullOrEmpty(status))
+        status = "pendentes";
+
+    var listaParaIterar = status == "concluidas" ? tarefasCompletas : tarefasPendentes;
+}
+
+<div class="d-flex flex-row-reverse mb-3">
+    <a class="btn btn-outline-primary" asp-controller="Tarefas" asp-action="Adicionar">Adicionar tarefa</a>
+</div>
+
+@if ((tarefasCompletas == null || !tarefasCompletas.Any()) && (tarefasPendentes == null || !tarefasPendentes.Any()))
+{
+    <div class="container-fluid d-flex align-items-center justify-content-center min-vh-50">
+        <div class="text-center">
+            <p class="lead mb-3">Nenhuma tarefa encontrada.</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container my-4">
+        <form asp-controller="Home" asp-action="Index" method="get">
+            <select class="form-select" name="status_tarefa" id="status_tarefa" onchange="this.form.submit()">
+                <option value="concluidas" selected='@(status == "concluidas" ? "selected" : null)'>Concluídas</option>
+                <option value="pendentes" selected='@(status == "pendentes" ? "selected" : null)'>Pendentes</option>
+            </select>
+        </form>
+    </div>
+    <div class="container my-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2">
+            @foreach (var t in listaParaIterar)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0"> 
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h4 class="card-title fw-bold mb-0 text-dark">@t.Titulo</h4> <span class="badge bg-secondary">#@t.Id</span> 
+                            </div>
+
+                            <p class="card-text text-secondary small mb-3 truncate-3">@t.Descricao</p>
+            
+                            <div class="mt-auto pt-2 d-flex justify-content-between align-items-end"> 
+                                <small class="text-muted fst-italic">Criada: @(t.DataCriacao.ToString("g"))</small>
+                                <div class="d-flex gap-2">
+                                    <form asp-controller="Tarefas" asp-action="AlterarStatus" asp-route-id="@t.Id" method="post">
+                                        <button type="submit" class="btn btn-sm btn-success">@(t.Concluida == false ? "Finalizar" : "Tornar pendente")</button>
+                                    </form>
+
+                                    <a asp-controller="Tarefas" asp-action="Editar" asp-route-id="@t.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#tarefa-card-@t.Id">Excluir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="tarefa-card-@t.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de Exclusão</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Você deseja realmente excluir a tarefa de ID: <strong>@t.Id</strong> - <strong>@t.Titulo</strong>?</p>
+                            </div>
+                            <div class="modal-footer gap-2">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                
+                                <form asp-controller="Tarefas" asp-action="Excluir" asp-route-id="@t.Id" method="post" class="m-0">
+                                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button> </form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
